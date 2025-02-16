@@ -142,7 +142,42 @@ class Tree{
         callback(node);
     }
 
+     //HEIGHT
+     height(node) {
+        if (node === null) return -1;
+        return 1 + Math.max(this.height(node.left), this.height(node.right));
+    }
 
+    //DEPTH
+    depth(node, current = this.root, depthCount = 0) {
+        if (current === null) return -1; 
+        if (current === node) return depthCount; 
+    
+        let left = this.depth(node, current.left, depthCount + 1);
+        if (left !== -1) return left; 
 
+        return this.depth(node, current.right, depthCount + 1);
+    }
+
+    //IS BALANCED?
+    isBalanced(node = this.root) {
+        if (node === null) return true;
+    
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
+    
+        if (Math.abs(leftHeight - rightHeight) > 1) return false;
+    
+        return this.isBalanced(node.left) && this.isBalanced(node.right);
+    }
+    
+    //RE-BALANCE
+    rebalance() {
+        let nodes = [];
+
+        this.inOrder(node => nodes.push(node.value));
+        
+        this.root = this.buildTree(nodes);
+    }
 }
 const a = new Tree([2,3,5,1,4]);
