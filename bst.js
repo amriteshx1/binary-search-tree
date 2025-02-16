@@ -24,7 +24,7 @@ class Tree{
         }
         return sorted(sortedArr,0,sortedArr.length - 1);
     }
-    
+
     //INSERT
     insert(value){
         this.root = this._insert(this.root,value);
@@ -71,7 +71,78 @@ class Tree{
         return node;
     }
 
+    //FIND
+    find(value) {
+        return this._findRec(this.root, value);
+    }
+    _findRec(node, value) {
+        if (node === null || node.value === value) return node;
+        return value < node.value 
+            ? this._findRec(node.left, value) 
+            : this._findRec(node.right, value);
+    }
+
+    //LEVEL-ORDER TRAVERSAL
+    levelOrder(callback){
+
+        //this one is iterative way, will add the recursive approach later
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+
+        let queue = [this.root];
+        while (queue.length > 0){
+            let node = queue.shift(); 
+            callback(node); 
+    
+            if (node.left) queue.push(node.left); 
+            if (node.right) queue.push(node.right);
+        }
+    }
+
+    //INORDER
+    inOrder(callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        this._inOrderRecur(this.root, callback);
+    }
+    _inOrderRecur(node,callback){
+        if (node === null) return;
+        this._inOrderRecur(node.left, callback);
+        callback(node);
+        this._inOrderRecur(node.right, callback);
+    }
+
+    //PRE-ORDER
+    preOrder(callback) {
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        this._preOrderRecur(this.root, callback);
+    }
+    _preOrderRecur(node,callback){
+        if (node === null) return;
+        callback(node);
+        this._preOrderRecur(node.left, callback);
+        this._preOrderRecur(node.right, callback);
+    }
+
+    //POST-ORDER
+    postOrder(callback){
+        if (typeof callback !== "function") {
+            throw new Error("A callback function is required.");
+        }
+        this._postOrderRecur(this.root, callback);
+    }
+    _postOrderRecur(node,callback){
+        if (node === null) return;
+        this._postOrderRecur(node.left, callback);
+        this._postOrderRecur(node.right, callback);
+        callback(node);
+    }
+
+
 
 }
 const a = new Tree([2,3,5,1,4]);
-console.log(a.root);
