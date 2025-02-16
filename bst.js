@@ -180,4 +180,52 @@ class Tree{
         this.root = this.buildTree(nodes);
     }
 }
-const a = new Tree([2,3,5,1,4]);
+
+//DRIVER SCRIPT 
+function generateRandomArray(size, max = 100) {
+    return Array.from({ length: size }, () => Math.floor(Math.random() * max));
+}
+
+let randomNumbers = generateRandomArray(10);
+let tree = new Tree(randomNumbers);
+
+console.log("Is tree balanced?", tree.isBalanced());
+
+console.log("Level-order:"); 
+tree.levelOrder(node => console.log(node.value));
+
+console.log("Pre-order:"); 
+tree.preOrder(node => console.log(node.value));
+
+console.log("Post-order:"); 
+tree.postOrder(node => console.log(node.value));
+
+console.log("In-order:"); 
+tree.inOrder(node => console.log(node.value));
+
+//unbalanced the tree by adding numbers > 100
+tree.insert(150);
+tree.insert(200);
+tree.insert(250);
+tree.insert(300);
+tree.insert(350);
+
+console.log("Is tree balanced after inserting large numbers?", tree.isBalanced());
+
+tree.rebalance();
+
+//confirming the tree is balanced again
+console.log("Is tree balanced after rebalancing?", tree.isBalanced());
+
+//printing elements in level, pre, post, and in order again
+console.log("Level-order:"); 
+tree.levelOrder(node => console.log(node.value));
+
+console.log("Pre-order:"); 
+tree.preOrder(node => console.log(node.value));
+
+console.log("Post-order:"); 
+tree.postOrder(node => console.log(node.value));
+
+console.log("In-order:"); 
+tree.inOrder(node => console.log(node.value));
